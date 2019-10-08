@@ -34,6 +34,16 @@ bool Print_Help(void)
     //QString value =  s->readLine();
 	int choice = 0;
 	std::cin >> choice;
+	if(cin.fail())
+	{
+		cin.clear();
+		cin.ignore(32767, '\n');
+		SetConsoleTextAttribute(hConsole, CONSOLE_ERROR_COLOUR);
+		cout<<"\nWrong value! Only numbers 0..3 are accepted.\n";
+		SetConsoleTextAttribute(hConsole, CONSOLE_STANDART_COLOUR);
+		return true;
+		//continue;
+	}
 	//int choice = stoi(str);
     switch(choice)
     {
@@ -55,7 +65,7 @@ bool Print_Help(void)
     default:
 		//HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		SetConsoleTextAttribute(hConsole, CONSOLE_ERROR_COLOUR);
-        std::cout<< "\nUnknown option\n";
+        std::cout<< "\nUnknown option! Only [0..3] are acceptable\n";
 		SetConsoleTextAttribute(hConsole, CONSOLE_STANDART_COLOUR);
     }
     return true;
@@ -65,16 +75,34 @@ bool Print_Help(void)
 
 bool Check_Tires(void)
 {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	string input;
-    std::cout << "Enter current rev\\km (example: 320.4): ";
+    std::cout << "Enter current rev\\km (example: 320.4) [0 to return back]: ";
     //QString value = s->readLine();
 	float revValue;
 	std::cin >> revValue;
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
+	
+	if(cin.fail())
+	{
+		cin.clear();
+		cin.ignore(32767, '\n');
+		SetConsoleTextAttribute(hConsole, CONSOLE_ERROR_COLOUR);
+		cout<<"\nWrong value! Only numbers 0..3 are accepted.\n\n";
+		SetConsoleTextAttribute(hConsole, CONSOLE_STANDART_COLOUR);
+		return true;
+		//continue;
+	}
+	
+	if(revValue == 0)
+	{
+		return false;
+	}
+	
     if(revValue >= 570 || revValue <= 0)
     {
-        std::cout<< "Error in number format [Example: XXX.X]\n" << std::endl;
+		SetConsoleTextAttribute(hConsole, CONSOLE_ERROR_COLOUR);
+        std::cout<< "\nError in number format [Example: XXX.X]\n" << std::endl;
+		SetConsoleTextAttribute(hConsole, CONSOLE_STANDART_COLOUR);
         return true;
     }
 
@@ -95,6 +123,16 @@ bool Enter_Tires(void)
     //QString value = s->readLine();
     //float tiresHeight = value.toFloat();
 	std::cin >> tiresHeight;
+	if(cin.fail())
+	{
+		cin.clear();
+		cin.ignore(32767, '\n');
+		SetConsoleTextAttribute(hConsole, CONSOLE_ERROR_COLOUR);
+		cout<<"\nWrong value! Only numbers 0..3 are accepted.\n";
+		SetConsoleTextAttribute(hConsole, CONSOLE_STANDART_COLOUR);
+		return true;
+		//continue;
+	}
     float revsPerKm = 100000/(3.14*tiresHeight);
 	SetConsoleTextAttribute(hConsole, CONSOLE_HIGHLIGHT_COLOUR);
     std::cout << "\nRevs\\km: " << revsPerKm << " units\n";
@@ -115,15 +153,42 @@ bool Calibrate_Rev(void)
 
     std::cout << "Enter distance by GPS in km: ";
     std::cin >> distanceGPS;
-
+	if(cin.fail())
+	{
+		cin.clear();
+		cin.ignore(32767, '\n');
+		SetConsoleTextAttribute(hConsole, CONSOLE_ERROR_COLOUR);
+		cout<<"\nWrong value! Only numbers 0..3 are accepted.\n";
+		SetConsoleTextAttribute(hConsole, CONSOLE_STANDART_COLOUR);
+		return true;
+		//continue;
+	}
 
     std::cout << "Enter distance by odometer in km: ";
     std::cin >> distanceTruck; 
-
+	if(cin.fail())
+	{
+		cin.clear();
+		cin.ignore(32767, '\n');
+		SetConsoleTextAttribute(hConsole, CONSOLE_ERROR_COLOUR);
+		cout<<"\nWrong value! Only numbers 0..3 are accepted.\n";
+		SetConsoleTextAttribute(hConsole, CONSOLE_STANDART_COLOUR);
+		return true;
+		//continue;
+	}
 
     std::cout << "Enter current revs\\km (Example: 230.1): ";
     std::cin >> currentRevs;
-	
+	if(cin.fail())
+	{
+		cin.clear();
+		cin.ignore(32767, '\n');
+		SetConsoleTextAttribute(hConsole, CONSOLE_ERROR_COLOUR);
+		cout<<"\nWrong value! Only numbers 0..3 are accepted.\n";
+		SetConsoleTextAttribute(hConsole, CONSOLE_STANDART_COLOUR);
+		return true;
+		//continue;
+	}
 
     std::cout << "Distance by GPS: " << distanceGPS << " Distance by truck: "<<distanceTruck<< "\n";
     deltaInPercents = static_cast <float>(((distanceTruck - distanceGPS)/((distanceGPS+distanceTruck)/2))*100);
